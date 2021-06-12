@@ -14,6 +14,7 @@
     "carousel": "0.0.3",
     "contentful": "^8.3.7",
     "next": "10.2.3",
+    "npm": "^7.17.0",
     "owl.carousel": "^2.3.4",
     "react": "17.0.2",
     "react-bootstrap": "^1.6.0",
