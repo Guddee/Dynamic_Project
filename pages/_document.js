@@ -51,10 +51,9 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
           <script src="assest/js/jquery.min.js"></script>
-
           <script src="assest/js/bootstrap.bundle.min.js"></script>
-          <script src="assest/js/my.min.js"></script>
-
+          <script src="assest/js/api.js"></script>
+          <script src="assest/js/custom.js"></script>
           <script src="assest/js/utils.js"></script>
         </body>
       </Html>
