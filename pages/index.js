@@ -1,33 +1,42 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
-import {createClient} from 'contentful';
-import HomePage from '../components/Layout/components/page_component/HomePage';
+import { createClient } from "contentful";
+import HomePage from "../components/Layout/components/page_component/HomePage";
 
+import MobileDetect from "mobile-detect";
 
-export async  function getStaticProps()
-{
-  const client = createClient({
-   space:process.env.CONTENTFUL_SPACE_ID,
-    accessToken:process.env.CONTENTFUL_ACCESS_KEY,
-  })
-  const res=await client.getEntries({content_type:'lodhaGoup'})
-  console.log(res);
-  return {
-    props:{
-      articles:res.items
-    }
+export async function getServerSideProps(context) {
+  let deviceType;
+  let userAgent;
+
+  if (context.req) {
+    userAgent = context.req.headers["user-agent"];
+  } else {
+    userAgent = navigator.userAgent;
   }
+
+  const md = new MobileDetect(userAgent);
+  if (md.tablet()) {
+    deviceType = "tablet";
+  } else if (md.mobile()) {
+    deviceType = "mobile";
+  } else {
+    deviceType = "desktop";
+  }
+
+  const client = createClient({
+    space: process.env.CONTENTFUL_SPACE_ID,
+    accessToken: process.env.CONTENTFUL_ACCESS_KEY,
+  });
+  const res = await client.getEntries({ content_type: "lodhaGoup" });
+
+  return { props: { deviceType, articles: res.items } };
 }
 
-export default function Home({articles}) {
-  console.warn(articles)
+export default function Home(props) {
   return (
     <div>
-   {articles.map((article,index)=>
-      <HomePage key={index} article={article} />
-      
-    )}
+      {props.articles.map((article, index) => (
+        <HomePage key={index} article={article} {...props} />
+      ))}
     </div>
-  )
+  );
 }

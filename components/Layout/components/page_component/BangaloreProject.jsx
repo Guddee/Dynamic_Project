@@ -1,43 +1,55 @@
-import dynamic from 'next/dynamic';
-const OwlCarousel = dynamic(import('react-owl-carousel'));
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
 import AirlineSeatFlatIcon from "@material-ui/icons/AirlineSeatFlat";
 
-export const BangaloreProject = ({ article }) => {
+import Carousel from "react-multi-carousel";
+
+export const BangaloreProject = ({ article, deviceType }) => {
   const {
     projectsInBangalore,
     bangaloreSlide1Address,
     bangaloreSlide1BedInfo,
     bangaloreSlide1PriceInfo,
   } = article.fields;
-  const state1 = {
-    responsive: {
-      0: {
-        items: 1,
-      },
-      450: {
-        items: 2,
-      },
-      600: {
-        items: 3,
-      },
-      1000: {
-        items: 3,
-      },
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+      slidesToSlide: 3,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+      slidesToSlide: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1,
     },
   };
 
   return (
     <div>
       <div className="row">
-        <OwlCarousel
-          items={3}
-          className="owl-theme"
-          loop
-          nav
-          margin={20}
-          responsive={state1.responsive}
+        <Carousel
+          ssr
+          partialVisbile={false}
+          deviceType={deviceType}
+          containerClass="carousel-container"
+          itemClass="image-item"
+          responsive={responsive}
+          additionalTransfrom={0}
+          arrows
+          autoPlaySpeed={3000}
+          centerMode={false}
+          draggable
+          focusOnSelect={false}
+          infinite
+          minimumTouchDrag={80}
+          renderButtonGroupOutside={true}
+          renderDotsOutside={false}
+          showDots={false}
+          slidesToSlide={1}
+          swipeable
         >
           {projectsInBangalore.map((item, i) => (
             <div
@@ -88,7 +100,7 @@ export const BangaloreProject = ({ article }) => {
               </div>
             </div>
           ))}
-        </OwlCarousel>
+        </Carousel>
       </div>
     </div>
   );

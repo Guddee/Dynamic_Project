@@ -1,30 +1,28 @@
-import { BangaloreProject } from './BangaloreProject';
-import { BangaloreSlide2 } from './BangaloreSlide2';
-import { Banner } from './Banner';
-import { WhyPrestige } from './WhyPrestige';
-import { PrestigePrimrose } from './PrestigePrimrose';
-import { Header } from '../Header';
-import { ModalForm } from './ModalForm';
+import { BangaloreProject } from "./BangaloreProject";
+import { BangaloreSlide2 } from "./BangaloreSlide2";
+import { Banner } from "./Banner";
+import WhyPrestige from "./WhyPrestige";
+import { PrestigePrimrose } from "./PrestigePrimrose";
+import { Header } from "../Header";
+import { ModalForm } from "./ModalForm";
 import { Drawer } from "@material-ui/core";
 import React, { useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import { CloseOutlined } from "@material-ui/icons";
-import { Form } from './Form';
-import { Footer } from '../Footer';
+import { Form } from "./Form";
+import { Footer } from "../Footer";
 
- 
-
-export default function HomePage({article}) {
+export default function HomePage({ article, deviceType }) {
   const { prestigeBangalorePara } = article.fields;
   const [openForm, setOpenForm] = useState(false);
   const handleDrawerForm = () => {
     setOpenForm(true);
   };
-    return (
-        <div>
-        <Header article={article}/>
-         <Banner article={article}/>
-        <section id="why_prestige">
+  return (
+    <div>
+      <Header article={article} />
+      <Banner article={article} />
+      <section id="why_prestige">
         <div className="container-section">
           <div className="row justify-content-center">
             <div className="col-12">
@@ -34,7 +32,7 @@ export default function HomePage({article}) {
                 </h4>
                 <br />
               </div>
-              <WhyPrestige article={article} />
+              <WhyPrestige article={article} deviceType={deviceType} />
             </div>
           </div>
         </div>
@@ -54,11 +52,11 @@ export default function HomePage({article}) {
                 </div>
               </div>
               <div className=" no-padding">
-                <BangaloreProject article={article} />
+                <BangaloreProject article={article} deviceType={deviceType} />
               </div>
 
               <div className="col-lg-12 no-padding mt-3">
-                <BangaloreSlide2 article={article} />
+                <BangaloreSlide2 article={article} deviceType={deviceType} />
               </div>
             </div>
           </div>
@@ -71,7 +69,7 @@ export default function HomePage({article}) {
               <div className="section-title">
                 <h4 className="title mb-4">Prestige Primrose Hills</h4>
               </div>
-              <PrestigePrimrose article={article}/>
+              <PrestigePrimrose article={article} deviceType={deviceType} />
             </div>
           </div>
         </div>
@@ -103,7 +101,7 @@ export default function HomePage({article}) {
           >
             <CloseOutlined color="primary" />
           </IconButton>
-          <ModalForm/>
+          <ModalForm />
         </div>
       </Drawer>
       <button
@@ -114,8 +112,8 @@ export default function HomePage({article}) {
       >
         Register Here
       </button>
-      <Form/>
-      <Footer/>
-        </div>
-    )
+      <Form />
+      <Footer />
+    </div>
+  );
 }
