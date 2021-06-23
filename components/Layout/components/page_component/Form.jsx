@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from 'next/router';
-import { getApi, postApi } from "../../../config/CustomApi";
+import { postApi } from "../../../config/CustomApi";
 import { FORM_ICON } from "../../../config/serverKey";
 import { CountryCode } from "./CountryCode";
+import { saveLead } from "../../../config/SendObject";
 
 export const Form = () => {
   const router = useRouter();
-  useEffect(() => {
-    getApi().then((data) => {
-      window.projectname = data.project_name;
-      window.city = data.city;
-    });
-  }, []);
   let initialData = {
     name: "",
     email: "",
@@ -23,23 +18,14 @@ export const Form = () => {
   const [dataForm, setDataForm] = useState(initialData);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let obj = {};
-    obj.p_username = dataForm.name;
-    obj.p_mobilenumber = dataForm.number;
-    obj.p_email = dataForm.email;
-    obj.p_countrycode = dataForm.countrycode;
-    obj.p_msg = dataForm.message;
-    obj.p_leadtype = window.projectname;
-    obj.p_launchname = "";
-    obj.p_source = "website";
-    obj.p_city = window.city;
+    let obj=await saveLead(dataForm)
+    alert("Thank you")
     postApi(obj);
     router.push("/thankyou");
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDataForm({ ...dataForm, [name]: value });
-    // console.log(`name: ${e.target.name},value: ${e.target.value}`);
   };
 
   return (

@@ -1,5 +1,5 @@
 const STATIC_PHONE='07411782406';
-const API_URL="https://www.myhomesfy.com/api/";
+const API_URL="https://api.homesfy.in/api/";
 const LOCATION_IMG="https://www.prestigeconstructions.com/images/city/";
 const FORM_ICON="http://www.w3.org/2000/svg";
 const MY_LOCATION=[ "bangalore","chennai","hyderabad","kochi","mangalore",]

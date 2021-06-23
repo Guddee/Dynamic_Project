@@ -23,9 +23,9 @@ export async function getServerSideProps(context) {
   }
 
   const client = createClient({
-    space: process.env.CONTENTFUL_SPACE_ID,
-    accessToken: process.env.CONTENTFUL_ACCESS_KEY,
-  });
+    space:"pha7sszc3ldj",
+     accessToken:"-SIMfYNijVldSsS6v1hMVIRjlcICaDlLLwJVu5WMfzo",
+   })
   const res = await client.getEntries({ content_type: "lodhaGoup" });
 
   return { props: { deviceType, articles: res.items } };

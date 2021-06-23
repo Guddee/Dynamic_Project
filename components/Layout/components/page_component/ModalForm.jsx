@@ -1,43 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { CountryCode } from "./CountryCode";
 import { useRouter } from 'next/router';
-import { getApi, postApi } from "../../../config/CustomApi";
+import {  postApi } from "../../../config/CustomApi";
 import { LOCATION_IMG, MY_LOCATION } from "../../../config/serverKey";
+import { saveLead } from "../../../config/SendObject";
 
 export const ModalForm = () => {
   let initialData = {
     name: "",
     email: "",
-    phone: "",
-    location: "",
+    number: "",
     countrycode: "+91",
+    location: "",
+  
   };
-  useEffect(() => {
-    getApi().then((data) => {
-      window.projectname = data.project_name;
-      window.city = data.city;
-    });
-  }, []);
   const router = useRouter();
   const [data, setData] = useState(initialData);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let obj = {};
-    obj.p_username = data.name;
-    obj.p_mobilenumber = data.phone;
-    obj.p_email = data.email;
-    obj.p_countrycode = data.countrycode;
-    obj.p_leadtype = window.projectname;
-    obj.p_launchname = "";
-    obj.p_source = "website";
-    obj.p_city = window.city;
+    let obj=await saveLead(data)
     postApi(obj);
     router.push("/thankyou");
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
-    // console.log(`name: ${e.target.name},value: ${e.target.value}`)
   };
   return (
     <div className="">
@@ -62,6 +49,7 @@ export const ModalForm = () => {
                       className="radio-button"
                       type="radio"
                       name="location"
+                      value={data.location}
                     />
                     <div className="radio-tile">
                       <div className="icon">
@@ -120,7 +108,7 @@ export const ModalForm = () => {
                     onChange={(e) => handleChange(e)}
                     value={data.countrycode}
                   >
-                   =<CountryCode/>
+                   <CountryCode/>
                   </select>
                 </div>
               </div>
@@ -129,15 +117,14 @@ export const ModalForm = () => {
                   <input
                     type="tel"
                     className="form-control"
-                    name="phone"
+                    name="number"
                     placeholder="Phone"
                     minLength="10"
                     maxLength="14"
                     required=""
-                    id="snumber"
                     pattern="[0-9]{10}$"
                     onChange={(e) => handleChange(e)}
-                    value={data.phone}
+                    value={data.number}
                   />
                 </div>
               </div>

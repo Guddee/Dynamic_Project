@@ -8,7 +8,7 @@ const getApi = async () => {
 }
 
 const postApi = async (body) => {
- await fetch(API_URL + "leads", {
+ await fetch("https://staging-api.homesfy.in/api/leads/create", {
     method: "post",
     headers: {
       "content-type": "application/json",
