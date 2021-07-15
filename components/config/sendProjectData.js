@@ -1,13 +1,14 @@
-import { mainPageApi } from "../../pages";
+import { getData } from "../../pages/[projectId]";
 import { browserData, deviceData, getIpAddress, queryForm } from "./Helper";
 
 var projectId;
  const saveLead=async(data)=>
 {
     debugger;
-    mainPageApi().then((data) =>{
-        projectId = data.Project.p_id;
-       })
+    getData().then((data)=>{
+        console.log(data,"djskd")
+        projectId=data.Project.p_id;
+    })
    const user_device=deviceData();
    const user_browser=browserData();
    const getUtmData=queryForm();

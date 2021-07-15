@@ -1,14 +1,17 @@
 import AirlineSeatFlatIcon from "@material-ui/icons/AirlineSeatFlat";
-
+import Link from 'next/link';
 import Carousel from "react-multi-carousel";
 
-export const BangaloreProject = ({ article, deviceType }) => {
+export const BangaloreProject = ({ article, deviceType ,art}) => {
+  console.log(article)
   const {
     projectsInBangalore,
     bangaloreSlide1Address,
     bangaloreSlide1BedInfo,
     bangaloreSlide1PriceInfo,
+    bangaloreProject1ContentType,
   } = article.fields;
+  
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -55,15 +58,16 @@ export const BangaloreProject = ({ article, deviceType }) => {
             <div
               className="card border-0 work-container work-grid position-relative d-block"
               key={i}
+              id={projectsInBangalore[i]?.fields?.title}
             >
               <div className="card-body p-0">
-                <a href="/#">
+              <Link href={bangaloreProject1ContentType[i]}>
                   <img
                     src={projectsInBangalore[i]?.fields?.file?.url}
                     className="img-fluid"
                     alt={projectsInBangalore[i]?.fields?.title}
                   />
-                </a>
+                </Link>
                 <div className="content bg-white p-3">
                   <h5 className="mb-0">
                     <a href="/#">{projectsInBangalore[i]?.fields?.title}</a>
@@ -86,7 +90,7 @@ export const BangaloreProject = ({ article, deviceType }) => {
                       className="btn btn-sm btn-info"
                       data-toggle="modal"
                       data-target="#mymodal"
-                      href="/#"
+                  
                     >
                       {bangaloreSlide1PriceInfo[i]}
                     </a>

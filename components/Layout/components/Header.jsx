@@ -9,7 +9,7 @@ import { CssBaseline, Drawer } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { CloseOutlined } from "@material-ui/icons";
 import { STATIC_PHONE } from "../../config/serverKey";
-import { getApi } from "../../config/CustomApi";
+import { mainPageApi } from "../../../pages";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +31,7 @@ export const Header = ({article}) => {
   };
   const [data, setData] = useState([]);
   useEffect(() => {
-    getApi().then((data) => {
+    mainPageApi().then((data) => {
       setData(data);
     });
   }, []);

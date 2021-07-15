@@ -6,14 +6,14 @@ import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PhoneIcon from "@material-ui/icons/Phone";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { STATIC_PHONE } from '../../config/serverKey';
-import { getApi } from '../../config/CustomApi';
+import { mainPageApi } from '../../../pages';
 
 
 export const Footer = () => {
  
     const [data, setData] = useState(null);
     useEffect(() => {
-      getApi().then((data) => {
+      mainPageApi().then((data) => {
         console.log(data);
         setData(data);
       });

@@ -1,84 +1,88 @@
 ﻿
-// Get data Only using ajax get call method 
-var projectId;
-var RegNo;
-var city;
+
+// Tab and images popup
+    $('.di').magnificPopup({
+      delegate: 'a',
+      type: 'image',
+      tLoading: 'Loading image #%curr%...',
+      mainClass: 'mfp-img-mobile',
+      gallery: {
+        enabled: true,
+        navigateByImgClick: true,
+        preload: [0,1] // Will preload 0 - before current, and 1 after the current image
+      }
+    });
+
+    $('.sh').magnificPopup({
+      delegate: 'a',
+      type: 'image',
+      tLoading: 'Loading image #%curr%...',
+      mainClass: 'mfp-img-mobile',
+      gallery: {
+        enabled: true,
+        navigateByImgClick: true,
+        preload: [0,1] // Will preload 0 - before current, and 1 after the current image
+      }
+    });
 
 
-let apiDataGet = async () => {
-    let data = getProjectData(1302) // Change Project_ID Integer Value only Ex:1131
-        .then((data) => {
-            phone_no = data.result.phone;
-            whatsapp_url = data.result.wp_links_sms;
-            whatsapp_url = whatsapp_url.split("=");
-            whatsapp_url[2] = "I want to know more about " + whatsapp_url[2];
-            whatsapp_url = whatsapp_url.join("=");
-            projectId = data.result.Project.p_id;
-            city = data.result.Project.Region.city;
-            RegNo = data.result.Project.Region.region_name;
-            $(".phone_url").attr("href", "tel:" + phone_no + "");
-            $(".whatsapp_url").attr("href", whatsapp_url + ".");
-            $(".phone_no").html(phone_no);
-
-        })
-        .catch((error) => {
-            var whatsapp_url = "https://api.whatsapp.com/send?phone=917304412403&text=Hi!"
-            $(".whatsapp_url").attr("href", whatsapp_url);
-            $(".phone_url").attr("href", "tel:" + 917304927701 + "");
-            $(".phone_no").html("917304927701")
-        });
+var gallery = $('.gallery-masonry');
+var category = '.item';
+function filterIsotope( filter ) {
+    var filter = filter || '*';
+    gallery.isotope({
+        filter: filter,
+    });
 }
-apiDataGet();
-// UTM Data Call
-var param_region_id = RegNo;
-var param_nationality = 1;
-// main function to store the data and post data to api
 
-
-async function saveLead(name, email, number, country_code, checkbox, pref) {
-    debugger;
-
-    var getUtmData = queryForm();
-    var ipAddress = await getIpAddress();
-    var user_device = deviceData();
-    var user_browser = browserData();
-
-
-    var obj = {};
-    obj.name = name;
-    obj.number = number;
-    obj.email = email;
-    obj.country_code = country_code;
-    obj.is_tc_agree = parseInt(checkbox);
-    // obj.admin_message= message; 
-    obj.nationality = param_nationality; // 1 for indian & 2 for NRI (int)
-    // obj.is_magnet = 1 ; // 1 for yes and 0 for no (int),
-    // magnet_id =39603; //if magnet else blank (int)
-    obj.source_id = 31;
-    obj.project_id = projectId;
-    console.log(obj.project_id);
-    if (getUtmData) {
-        obj.Utm = {
-            utm_medium: getUtmData.utmmedium,
-            utm_source: getUtmData.utmsource,
-            utm_content: getUtmData.utmcontent,
-            utm_term: getUtmData.utmterm
-        };
-    }
-    obj.Digital = {
-        user_device: user_device,
-        user_browser: user_browser,
-        campaing_type: getUtmData ? getUtmData.utmcampaign : null,
-        launch_name: "",
-        client_ipaddress: ipAddress,
-        client_pref: pref
-    }
-    if (pref == 'DownloadBrochure_overview_homepage') {
-        SendLead(obj, "thankyou.html");
-    } else {
-        SendLead(obj, "thankyou.html");
-    }
+var lightbox = $('.gallery-masonry');
+function lightboxFilter( filter ) {
+    var filter = filter || '*';
+    lightbox.magnificPopup({
+        delegate: filter+'>a',
+        type: 'image',
+        gallery: {
+            enabled: true,
+        }
+    });
 }
+
+filterIsotope();
+lightboxFilter();
+
+gallery.imagesLoaded().progress(function() {
+    filterIsotope();
+});
+
+$('[data-category]').on('click', function() {
+    var category = $(this).data('category');
+    filterIsotope( category );
+    lightboxFilter( category );
+    $(".gallery-item-filter span").removeClass("active");
+    $(this).addClass("active");  
+});
+
+$('.popup-ajax').magnificPopup({
+    type: 'ajax', 
+    closeOnBgClick: false,
+    callbacks: {
+        beforeOpen: function() {
+            jQuery('body').css('overflow-y', 'hidden');
+            jQuery('body').css('position', 'fixed');
+        },
+        beforeClose: function() {
+            jQuery('body').css('overflow-y', 'auto');
+            jQuery('body').css('position', 'relative');
+        }
+    }
+});
+ let id;
+$('[data-target][data-toggle=modal]').on('click', function() {
+    id = $(this).attr('data-target');
+    $('.modal #exampleModalCenter').attr('id', id).modal('show');
+});
+
+
 
 window.$zopim || (function(g, a) {
     var f = $zopim = function(d) {

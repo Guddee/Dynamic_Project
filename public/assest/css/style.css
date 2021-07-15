@@ -447,7 +447,7 @@
 				.alert {
 					padding: 5px 8px !important;
 				}
-				.paddress { display: none; !important; }
+				.paddress { display: none !important; }
 				#contactno span, .watch-vt span { /* display: none !important; */}
 				
 				.public-profile small {top: 0px !important;}

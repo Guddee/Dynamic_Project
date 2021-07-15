@@ -1,5 +1,5 @@
 import AirlineSeatFlatIcon from "@material-ui/icons/AirlineSeatFlat";
-
+import Link from 'next/link';
 import Carousel from "react-multi-carousel";
 
 export const BangaloreSlide2 = ({ article, deviceType }) => {
@@ -8,6 +8,7 @@ export const BangaloreSlide2 = ({ article, deviceType }) => {
     bangaloreSlide2Address,
     bangaloreSlide2BedInfo,
     bangaloreSlide2PriceInfo,
+    bangaloreSlide1ContentType,
   } = article.fields;
 
   const responsive = {
@@ -58,13 +59,13 @@ export const BangaloreSlide2 = ({ article, deviceType }) => {
               key={i}
             >
               <div className="card-body p-0">
-                <a href="/#">
+              <Link href={bangaloreSlide1ContentType[i]}>
                   <img
                     src={bangaloreProjectSlide2[i]?.fields?.file?.url}
                     className="img-fluid"
                     alt={bangaloreProjectSlide2[i]?.fields?.title}
                   />
-                </a>
+                </Link>
                 <div className="content bg-white p-3">
                   <h5 className="mb-0">
                     <a href="/#" target="_new">

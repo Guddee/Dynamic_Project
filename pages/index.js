@@ -1,7 +1,8 @@
 import { createClient } from "contentful";
 import HomePage from "../components/Layout/components/page_component/HomePage";
-
 import MobileDetect from "mobile-detect";
+import { API_URL, GET_DATA_API } from "../components/config/serverKey";
+
 
 export async function getServerSideProps(context) {
   let deviceType;
@@ -23,20 +24,24 @@ export async function getServerSideProps(context) {
   }
 
   const client = createClient({
-    space:"pha7sszc3ldj",
-     accessToken:"-SIMfYNijVldSsS6v1hMVIRjlcICaDlLLwJVu5WMfzo",
-   })
-  const res = await client.getEntries({ content_type: "lodhaGoup" });
-
-  return { props: { deviceType, articles: res.items } };
+    space: "fo2bfrw08w1u",
+    accessToken: "IhKu8CAgf6PpJbjkXkllPKIPbKDAJzJL4FzYJZlWO0w",
+  });
+  const allRes = await client.getEntries();
+  return { props: { deviceType, totalArticles: allRes.items } };
 }
-
+var projectId;
 export default function Home(props) {
+projectId=props.totalArticles[0].fields.projectId;
   return (
     <div>
-      {props.articles.map((article, index) => (
-        <HomePage key={index} article={article} {...props} />
-      ))}
+      <HomePage article={props.totalArticles[0]} {...props} />
     </div>
   );
+}
+
+export async function mainPageApi(){
+  const res = await fetch("https://api.homesfy.in/api/leads/projectdata/"+projectId)
+  const json = await res.json()
+  return json.result
 }

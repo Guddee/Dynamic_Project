@@ -12,7 +12,7 @@ import { CloseOutlined } from "@material-ui/icons";
 import { Form } from "./Form";
 import { Footer } from "../Footer";
 
-export default function HomePage({ article, deviceType }) {
+export default function HomePage({ article,deviceType }) {
   const { prestigeBangalorePara } = article.fields;
   const [openForm, setOpenForm] = useState(false);
   const handleDrawerForm = () => {
