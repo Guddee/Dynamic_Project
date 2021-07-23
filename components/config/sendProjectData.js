@@ -6,7 +6,6 @@ var projectId;
 {
     debugger;
     getData().then((data)=>{
-        console.log(data,"djskd")
         projectId=data.Project.p_id;
     })
    const user_device=deviceData();

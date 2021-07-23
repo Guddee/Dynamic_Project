@@ -1,6 +1,7 @@
 import AirlineSeatFlatIcon from "@material-ui/icons/AirlineSeatFlat";
 import Link from 'next/link';
 import Carousel from "react-multi-carousel";
+import Image from 'next/image';
 
 export const BangaloreProject = ({ article, deviceType ,art}) => {
   console.log(article)
@@ -62,8 +63,10 @@ export const BangaloreProject = ({ article, deviceType ,art}) => {
             >
               <div className="card-body p-0">
               <Link href={bangaloreProject1ContentType[i]}>
-                  <img
-                    src={projectsInBangalore[i]?.fields?.file?.url}
+                  <Image
+                    src={"https:" + projectsInBangalore[i]?.fields?.file?.url}
+                    width={projectsInBangalore[i]?.fields?.file?.details?.image?.width}
+                    height={projectsInBangalore[i]?.fields?.file?.details?.image?.height}
                     className="img-fluid"
                     alt={projectsInBangalore[i]?.fields?.title}
                   />

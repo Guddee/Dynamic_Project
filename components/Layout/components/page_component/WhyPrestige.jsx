@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Image from 'next/image';
 
 import Carousel from "react-multi-carousel";
 
@@ -51,9 +52,11 @@ class WhyPrestige extends Component {
               key={i}
             >
               <div className="card-body p-0">
-                <img
+                <Image
                   className="img-fluid"
-                  src={item.fields.file.url}
+                  src={"https:" + item?.fields?.file?.url}
+                  width={item?.fields?.file?.details?.image?.width}
+                  height={item?.fields?.file?.details?.image?.height}
                   alt={item.fields.title}
                 />
                 <div className="content1 bg-white p-3">

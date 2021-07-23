@@ -1,4 +1,6 @@
 import Carousel from "react-multi-carousel";
+import Image from 'next/image';
+
 
 export const PrestigePrimrose = ({ article, deviceType }) => {
   const responsive = {
@@ -50,8 +52,10 @@ export const PrestigePrimrose = ({ article, deviceType }) => {
             >
               <div className="card-body p-0">
                 <a href="/#">
-                  <img
-                    src={prestigePrimrose[i]?.fields?.file?.url}
+                  <Image
+                    src={"https:" + prestigePrimrose[i]?.fields?.file?.url}
+                    width={prestigePrimrose[i]?.fields?.file?.details?.image?.width}
+                    height={prestigePrimrose[i]?.fields?.file?.details?.image?.height}
                     className="img-fluid"
                     alt={prestigePrimrose[i]?.fields?.title}
                   />

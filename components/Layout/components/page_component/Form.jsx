@@ -12,7 +12,7 @@ export const Form = () => {
     email: "",
     number: "",
     countrycode: "+91",
-    message: "",
+    msg: "",
   };
 
   const [dataForm, setDataForm] = useState(initialData);
@@ -83,6 +83,7 @@ export const Form = () => {
                       required=""
                       onChange={(e) => handleChange(e)}
                       value={dataForm.name}
+                      required
                     />
                   </div>
                   <div className="form-group position-relative"></div>
@@ -126,6 +127,7 @@ export const Form = () => {
                           id="dropAnEnquiry_countrycode"
                           onChange={(e) => handleChange(e)}
                           value={dataForm.countrycode}
+                          required
                         >
                         <CountryCode/>
                         </select>
@@ -154,6 +156,7 @@ export const Form = () => {
                           required=""
                           onChange={(e) => handleChange(e)}
                           value={dataForm.number}
+                          required
                         />
                       </div>
                     </div>
@@ -164,10 +167,10 @@ export const Form = () => {
                       <label>
                         <input
                           type="radio"
-                          name="message"
+                          name="msg"
                           required=""
                           onChange={(e) => handleChange(e)}
-                          value={dataForm.message}
+                          value="yes"
                         />
                         <i className="helper"></i>Yes
                       </label>
@@ -176,9 +179,9 @@ export const Form = () => {
                       <label>
                         <input
                           type="radio"
-                          name="message"
+                          name="msg"
                           onChange={(e) => handleChange(e)}
-                          value={dataForm.message}
+                          value="no"
                         />
                         <i className="helper"></i>No
                       </label>

@@ -9774,12 +9774,19 @@ width: 130px;
           margin-left: 0;
           background-color: #34af23
       }
-
+      .menu_icon
+      {
+        display: none!important;
+      }
 @media(max-width:767px) {
   .SocialButton {
       display: block
   }
   .pi-section table {
     width: 100%;
+  }
+  .menu_icon
+  {
+    display: block!important;
   }
 }

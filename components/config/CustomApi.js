@@ -1,5 +1,7 @@
+import { API_URL, LEAD_CREATE } from "./serverKey";
+
 const postApi = async (body) => {
- await fetch("https://api.homesfy.in/api/leads/create", {
+ await fetch(API_URL+LEAD_CREATE, {
     method: "post",
     headers: {
       "content-type": "application/json",

@@ -10,14 +10,6 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-        <meta charSet="utf-8" />
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="assest/images/favicon.png" sizes="32x32" />
-          <title>
-            Builders in Bangalore | Real Estate Developers in South India
-          </title>
 
           <link
             href="/assest/css/style01.css"

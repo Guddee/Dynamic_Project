@@ -5,6 +5,7 @@ import {  postApi } from "../../../config/CustomApi";
 import { LOCATION_IMG, MY_LOCATION } from "../../../config/serverKey";
 import { saveLead } from "../../../config/SendObject";
 
+
 export const ModalForm = () => {
   let initialData = {
     name: "",
@@ -12,7 +13,7 @@ export const ModalForm = () => {
     number: "",
     countrycode: "+91",
     location: "",
-  
+    msg:"",
   };
   const router = useRouter();
   const [data, setData] = useState(initialData);
@@ -49,7 +50,6 @@ export const ModalForm = () => {
                       className="radio-button"
                       type="radio"
                       name="location"
-                      value={data.location}
                     />
                     <div className="radio-tile">
                       <div className="icon">
@@ -81,6 +81,7 @@ export const ModalForm = () => {
                 name="name"
                 onChange={(e) => handleChange(e)}
                 value={data.name}
+                required
               />
             </div>
             <div className="form-group">
@@ -107,6 +108,7 @@ export const ModalForm = () => {
                     id="scountrycode"
                     onChange={(e) => handleChange(e)}
                     value={data.countrycode}
+                    required
                   >
                    <CountryCode/>
                   </select>

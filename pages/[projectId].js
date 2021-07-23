@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import { createClient } from "contentful";
-import { FA_ICON, FORM_ICON } from "../components/config/serverKey";
+import {API_URL, FA_ICON,FORM_ICON,GET_DATA_API,NAV_MENU,PROJECT_LOGO,} from "../components/config/serverKey";
 import { CountryCode } from "../components/Layout/components/page_component/CountryCode";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import InstagramIcon from "@material-ui/icons/Instagram";
@@ -17,10 +17,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { CssBaseline, Drawer } from "@material-ui/core";
 import { CloseOutlined } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
-import {postApi } from "../components/config/CustomApi";
+import { postApi } from "../components/config/CustomApi";
 import { useRouter } from "next/router";
 import { saveLead } from "../components/config/sendProjectData";
-
 
 export async function getServerSideProps(context) {
   const id = context.query.projectId;
@@ -34,7 +33,6 @@ export async function getServerSideProps(context) {
       return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     })
     .join("");
-    console.log(contentId,"sdhsk")
   const client = createClient({
     space: "fo2bfrw08w1u",
     accessToken: "IhKu8CAgf6PpJbjkXkllPKIPbKDAJzJL4FzYJZlWO0w",
@@ -60,14 +58,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 var projectId;
-export async function getData()
-{
-  let response = await fetch("https://api.homesfy.in/api/leads/projectdata/"+projectId);
+export async function getData() {
+  let response = await fetch(API_URL + GET_DATA_API + projectId);
   let res = await response.json();
-  return res.result
+  return res.result;
 }
 export default function project({ articles }) {
-  projectId=articles[0].fields.projectId;
+  projectId = articles[0].fields.projectId;
   const {
     banner,
     projectLogo,
@@ -83,21 +80,23 @@ export default function project({ articles }) {
     locationLink,
     locationContent,
   } = articles[0].fields;
-  const router = useRouter();
+
   const [data, setData] = useState(null);
-
-  getData().then((data)=>{
-
-    var phone_no=data?.phone;
-  })
+  useEffect(() => {
+    getData().then((data) => {
+      setData(data);
+    });
+  }, []);
   const phone_no = data?.phone;
-  const whatsapp_no = data?.wp_links;
+  let whatsapp_no = data?.wp_links_sms;
+
   const STATIC_PHONE = 7264237365;
   let initialData = {
     name: "",
     email: "",
     number: "",
     CountryCode: "+91",
+    msg: "",
   };
   const [ModalData, setModalData] = useState(initialData);
   const [FormData, setFormData] = useState(initialData);
@@ -112,12 +111,24 @@ export default function project({ articles }) {
     postApi(obj);
     router.push("/thankyou");
   };
+  const handleChange1 = (e) => {
+    const { name, value } = e.target;
+    setModalData({ ...ModalData, [name]: value });
+  };
+  const handleSubmitModal = async (e) => {
+    e.preventDefault();
+    let obj = await saveLead(ModalData);
+    alert("Thank you");
+    postApi(obj);
+    router.push("/thankyou");
+  };
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleDrawer = () => {
     setOpen(true);
   };
+  const router = useRouter();
 
   return (
     <div>
@@ -127,57 +138,27 @@ export default function project({ articles }) {
           <AppBar>
             <Toolbar>
               <Typography variant="h6" className={classes.title}>
-                <img src="https://www.prestigeconstructions.com/images/logo.png" />
+                <img src={PROJECT_LOGO} />
               </Typography>
 
               <ul className="navigation-menu mobBlock">
-                <li>
-                  <a href="#Highlights">
-                    <span>Project Highlights</span>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#Overview">
-                    <span>About</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#Amenities">
-                    <span>Amenities</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#FloorPlan">
-                    <span>FloorPlan</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#PricePlan">
-                    <span>Price Plan</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#Gallery">
-                    <span>Gallery</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#Location">
-                    <span>Location</span>
-                  </a>
-                </li>
+                {NAV_MENU.map((item, i) => (
+                  <li key={i}>
+                    <a href={`#` + item}>
+                      <span>{item}</span>
+                    </a>
+                  </li>
+                ))}
               </ul>
               <div>
                 <IconButton
                   onClick={handleDrawer}
                   edge="start"
-                  className={`${classes.menuButton} `}
+                  className="menu_icon"
                   color="inherit"
                   aria-label="menu"
-                  style={{display:"none"}}
                 >
-                  <MenuIcon />
+                  <MenuIcon  className="menu_icon"/>
                 </IconButton>
               </div>
             </Toolbar>
@@ -204,45 +185,16 @@ export default function project({ articles }) {
               <div>
                 <div className="demo-list">
                   <ul>
+                    {NAV_MENU.map((item, i) => (
+                      <li key={i}>
+                        <a href={`#` + item}>
+                          <span>{item}</span>
+                        </a>
+                      </li>
+                    ))}
                     <li>
-                      <a href="#Highlights">
-                        <span>Project Highlights</span>
-                      </a>
-                    </li>
-
-                    <li>
-                      <a href="#Overview">
-                        <span>About</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#Amenities">
-                        <span>Amenities</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#FloorPlan">
-                        <span>FloorPlan</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#PricePlan">
-                        <span>Price Plan</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#Gallery">
-                        <span>Gallery</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#Location">
-                        <span>Location</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a className="phone_url" href="07411782406">
-                        <span className="phone_no">07411782406</span>
+                      <a className="phone_url" href={phone_no}>
+                        <span className="phone_no">{phone_no}</span>
                       </a>
                     </li>
                   </ul>
@@ -361,8 +313,7 @@ export default function project({ articles }) {
                               >
                                 <i className="uil uil-phone"></i>{" "}
                                 <span className="alert-content">
-                                  {/* {phone_no} */}
-                                  8573485748
+                                  {phone_no}
                                 </span>
                               </div>
                             </a>
@@ -730,8 +681,8 @@ export default function project({ articles }) {
                             <label>
                               <input
                                 type="radio"
-                                name="1"
-                                value="1"
+                                name="msg"
+                                value={FormData.msg}
                                 required
                                 onChange={(e) => handleChange(e)}
                               />
@@ -742,8 +693,8 @@ export default function project({ articles }) {
                             <label>
                               <input
                                 type="radio"
-                                name="csitevisit"
-                                value="0"
+                                name="msg"
+                                value={FormData.msg}
                                 onChange={(e) => handleChange(e)}
                               />
                               <i className="helper"></i>No
@@ -797,7 +748,7 @@ export default function project({ articles }) {
                       pattern="[a-zA-Z ]+"
                       minLength="3"
                       placeholder="Your name"
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange1(e)}
                       value={ModalData.name}
                       required
                     />
@@ -811,7 +762,7 @@ export default function project({ articles }) {
                           className="form-control countrycode"
                           required=""
                           id="dropAnEnquiry_countrycode"
-                          onChange={(e) => handleChange(e)}
+                          onChange={(e) => handleChange1(e)}
                           value={ModalData.CountryCode}
                         >
                           <CountryCode />
@@ -824,7 +775,7 @@ export default function project({ articles }) {
                           id="amobile"
                           className="form-control pl-5"
                           placeholder="Your mobile"
-                          onChange={(e) => handleChange(e)}
+                          onChange={(e) => handleChange1(e)}
                           value={ModalData.number}
                           required
                         />
@@ -857,7 +808,7 @@ export default function project({ articles }) {
                       type="email"
                       className="form-control pl-5"
                       placeholder="Your email"
-                      onChange={(e) => handleChange(e)}
+                      onChange={(e) => handleChange1(e)}
                       value={ModalData.email}
                       required
                     />
@@ -868,9 +819,9 @@ export default function project({ articles }) {
                       <label>
                         <input
                           type="radio"
-                          name="asitevisit"
-                          value="1"
-                          onChange={(e) => handleChange(e)}
+                          name="msg"
+                          value={ModalData.msg}
+                          onChange={(e) => handleChange1(e)}
                           required
                         />{" "}
                         <i className="helper"></i>Yes
@@ -880,9 +831,9 @@ export default function project({ articles }) {
                       <label>
                         <input
                           type="radio"
-                          name="asitevisit"
-                          value="0"
-                          onChange={(e) => handleChange(e)}
+                          name="msg"
+                          value={ModalData.msg}
+                          onChange={(e) => handleChange1(e)}
                         />
                         <i className="helper"></i>No
                       </label>
@@ -892,7 +843,7 @@ export default function project({ articles }) {
                     <input
                       type="submit"
                       className="button btn btn-info rounded"
-                      onClick={(e) => handleSubmit(e)}
+                      onClick={(e) => handleSubmitModal(e)}
                     />
                   </div>
                 </form>
@@ -916,7 +867,7 @@ export default function project({ articles }) {
               <li>
                 <a
                   className="whatsap_url"
-                  href={`${whatsapp_no}` + "!I want to know about Project_name"}
+                  href={`${whatsapp_no}` + "!I want to know about"}
                 >
                   <img src="/assest/images/whatsapp.png" alt="whatsappImg" />
                 </a>
@@ -1130,5 +1081,3 @@ export default function project({ articles }) {
     </div>
   );
 }
-
-
